@@ -1,0 +1,230 @@
+<!DOCTYPE html><html data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Linux系统优化 | hash的博客</title><meta name="author" content="John Doe"><meta name="copyright" content="John Doe"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><meta name="description" content="Linux系统优化 关闭SElinux 1、查看状态 [root] # getenforce Disabled 2、永久关闭 [root] # sed -i &#39;s&#x2F;SELINUX&#x3D;enforcing&#x2F;SELINUX&#x3D;disabled&#x2F;&#39; &#x2F;etc&#x2F;selinux&#x2F;config 3、重启 reboot 4、查看状态 [root] # getenforce 查看关闭防火墙 查看防火墙状">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux系统优化">
+<meta property="og:url" content="http://example.com/2021/01/01/%E7%B3%BB%E7%BB%9F%E3%80%81%E4%B8%AD%E9%97%B4%E4%BB%B6%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/index.html">
+<meta property="og:site_name" content="hash的博客">
+<meta property="og:description" content="Linux系统优化 关闭SElinux 1、查看状态 [root] # getenforce Disabled 2、永久关闭 [root] # sed -i &#39;s&#x2F;SELINUX&#x3D;enforcing&#x2F;SELINUX&#x3D;disabled&#x2F;&#39; &#x2F;etc&#x2F;selinux&#x2F;config 3、重启 reboot 4、查看状态 [root] # getenforce 查看关闭防火墙 查看防火墙状">
+<meta property="og:locale">
+<meta property="og:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg">
+<meta property="article:published_time" content="2021-01-01T07:13:00.703Z">
+<meta property="article:modified_time" content="2021-01-01T07:22:16.207Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/2021/01/01/%E7%B3%BB%E7%BB%9F%E3%80%81%E4%B8%AD%E9%97%B4%E4%BB%B6%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+};
+
+var saveToLocal = {
+  set: function setWithExpiry(key, value, ttl) {
+    const now = new Date()
+    const expiryDay = ttl * 86400000
+    const item = {
+      value: value,
+      expiry: now.getTime() + expiryDay,
+    }
+    localStorage.setItem(key, JSON.stringify(item))
+  },
+
+  get: function getWithExpiry(key) {
+    const itemStr = localStorage.getItem(key)
+
+    if (!itemStr) {
+      return undefined
+    }
+    const item = JSON.parse(itemStr)
+    const now = new Date()
+
+    if (now.getTime() > item.expiry) {
+      localStorage.removeItem(key)
+      return undefined
+    }
+    return item.value
+  }
+}
+
+// https://stackoverflow.com/questions/16839698/jquery-getscript-alternative-in-native-javascript
+const getScript = url => new Promise((resolve, reject) => {
+  const script = document.createElement('script')
+  script.src = url
+  script.async = true
+  script.onerror = reject
+  script.onload = script.onreadystatechange = function() {
+    const loadState = this.readyState
+    if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+    script.onload = script.onreadystatechange = null
+    resolve()
+  }
+  document.head.appendChild(script)
+})</script><script id="config_change">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-01-01 15:22:16'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(function () {  window.activateDarkMode = function () {
+    document.documentElement.setAttribute('data-theme', 'dark')
+    if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+    }
+  }
+  window.activateLightMode = function () {
+    document.documentElement.setAttribute('data-theme', 'light')
+   if (document.querySelector('meta[name="theme-color"]') !== null) {
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+    }
+  }
+  const autoChangeMode = 'false'
+  const t = saveToLocal.get('theme')
+  if (autoChangeMode === '1') {
+    const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+    const isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+    const isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+    const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+    if (t === undefined) {
+      if (isLightMode) activateLightMode()
+      else if (isDarkMode) activateDarkMode()
+      else if (isNotSpecified || hasNoSupport) {
+        const now = new Date()
+        const hour = now.getHours()
+        const isNight = hour <= 6 || hour >= 18
+        isNight ? activateDarkMode() : activateLightMode()
+      }
+      window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+        if (saveToLocal.get('theme') === undefined) {
+          e.matches ? activateDarkMode() : activateLightMode()
+        }
+      })
+    } else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else if (autoChangeMode === '2') {
+    const now = new Date()
+    const hour = now.getHours()
+    const isNight = hour <= 6 || hour >= 18
+    if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+    else if (t === 'light') activateLightMode()
+    else activateDarkMode()
+  } else {
+    if (t === 'dark') activateDarkMode()
+    else if (t === 'light') activateLightMode()
+  }const asideStatus = saveToLocal.get('aside-status')
+if (asideStatus !== undefined) {
+   if (asideStatus === 'hide') {
+     document.documentElement.classList.add('hide-aside')
+   } else {
+     document.documentElement.classList.remove('hide-aside')
+   }
+}})()</script><meta name="generator" content="Hexo 5.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/null" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">2</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg)"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">hash的博客</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Linux系统优化</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">Created</span><time class="post-meta-date-created" datetime="2021-01-01T07:13:00.703Z" title="Created 2021-01-01 15:13:00">2021-01-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">Updated</span><time class="post-meta-date-updated" datetime="2021-01-01T07:22:16.207Z" title="Updated 2021-01-01 15:22:16">2021-01-01</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>Linux系统优化</p>
+<p>关闭SElinux</p>
+<pre><code>1、查看状态
+[root] # getenforce
+Disabled
+2、永久关闭
+[root] # sed -i &#39;s/SELINUX=enforcing/SELINUX=disabled/&#39; /etc/selinux/config
+3、重启
+reboot
+4、查看状态
+[root] # getenforce</code></pre>
+<p>查看关闭防火墙</p>
+<p>查看防火墙状态</p>
+<h1 id="firewall-cmd-–state"><a href="#firewall-cmd-–state" class="headerlink" title="firewall-cmd –state"></a>firewall-cmd –state</h1><pre><code>停止firewalld
+#systemctl stop firewalld.service
+禁止firewall开机启动
+systemctl disable firewalld.service</code></pre>
+<p>设置服务器时间同步</p>
+<pre><code># ntpdate ntp1.aliyun.com国内阿里云时间同步服务器
+# echo &#39;*/5 * * * * /usr/sbin/ntpdate ntp1.aliyun.com &gt;/dev/null 2&gt;&amp;1&#39; &gt;&gt;/var/spool/cron/root
+# crontab –l</code></pre>
+<p>调整Linux系统描述符数量和最大进程数，最大线程数<br>1.查看是ulimit -n ，查看数量。规则是“软(soft)”或“硬(hard)”<br>执行vim /etc/security/limits.conf<br>添加：</p>
+<ul>
+<li>   soft    nofile    65535</li>
+<li>   hard    nofile    65535 </li>
+</ul>
+<p>2.再次查看    (要退出登陆生效)<br>        ulimit –n</p>
+<p>3.最大线程数修改<br>        # ulimit -a<br>    max user processes  (-u) #系统限制某用户下最多可以运行多少进程或线程</p>
+<p>4.1.在/etc/security/limits.conf文件里添加如下内容：<br>    * soft nproc 65535   # 打开进程数<br>    * hard nproc 65535   # 打开进程数</p>
+<p>linux TCP参数简单修改<br>1、修改 # vim /etc/sysctl.conf<br> net.ipv4.tcp_syncookies = 1<br> net.ipv4.tcp_tw_reuse = 1<br> net.ipv4.tcp_tw_recycle = 1<br>    net.ipv4.ip_local_port_range = 10000 65000</p>
+<pre><code>net.ipv4.tcp_syncookies = 1表示开启SYN Cookies。当出现SYN等待队列溢出时 启用 Cookie 旋来处理，可防范少量的SYN 攻击。该参数默认为0，表示关闭。</code></pre>
+<p>net.ipv4.tcp_tw_reuse = 1表示开启重用，即允许将TIME-WAIT 套接字重新用于的TCP连接。该参数默认为 0，表示关闭。<br>net.ipv4.tcp_tw_recycle = 1 表示开启TCP连接中TIME-WAIT 套接字的快速回收，该参数默认为0，表示关闭。<br>net.ipv4.ip_local_port_range = 10000 65000 表示CentOS 系统向外连接的端口范围。其默认值很小，这里改为10000到65000。建议不要将这里的最低值设得太低，否则可能会占用正常的端口。</p>
+<p>2、执行命令使内核配置立马生效<br>/sbin/sysctl -p</p>
+<p>Tomcat优化<br>1、server.xml 并发修改<br><Connector port="8080" protocol="HTTP/1.1"
+connectionTimeout="20000"
+redirectPort="8444" 
+URIEncoding="UTF-8"
+maxThreads="50000"
+minSpareThreads="100" 
+maxSpareThreads="1000"
+minProcessors="100" maxProcessors="50000"
+enableLookups="false" disableUploadTimeout="true"
+       acceptCount="50000"/></p>
+<p>2、参数详解：<br>{ 前端有nginx 的可以不配置<br>compression=”on”<br>compressionMinSize=”2048”<br>compressableMimeType=”text/html,text/xml,text/JavaScript,text/css,text/plain”</p>
+<p>compression ：设置是否开启GZip压缩<br>HTTP 压缩可以大大提高浏览网站的速度，它的原理是，在客户端请求网页后，从服务器端将网页文件压缩，再下载到客户端，由客户端的浏览器负责解压缩并浏览。相对于普通的浏览过程HTML,CSS,Javascript , Text ，它可以节省40%左右的流量。更为重要的是，它可以对动态生成的，包括CGI、PHP , JSP , ASP , Servlet,SHTML等输出的网页也能进行压缩，压缩效率惊人。<br>compressionMinSize<br>compressionMinSize=”2048” 启用压缩的输出内容大小，这里面默认为2KB<br>(14)compressableMimeType<br>compressableMimeType：哪些类型需要压缩，默认是text/html,text/xml,text/plain<br>}</p>
+<p>minProcessors：最小空闲连接线程数，用于提高系统处理性能，默认值为10<br>maxProcessors：最大连接线程数，即：并发处理的最大请求数，默认值为75<br>acceptCount：允许的最大连接数，应大于等于 maxProcessors ，默认值为100</p>
+<p>enableLookups：是否反查域名，取值为:true或false。为了提高处理能力，应设置为false<br>redirectPort        在需要基于安全通道的场合，把客户请求转发到基于SSL的redirectPort端口<br>maxSpareThreads<br>最大备用线程数，tomcat启动时的初始化的线程数 默认10.<br>minSpareThreads<br>最小备用线程数，tomcat启动时的初始化的线程数，默认50.<br>URIEncoding=”UTF-8”<br>使得tomcat可以解析含有中文名的文件的url<br>disableUploadTimeout=”true”,<br>类似于Apache中的keeyalive一样,是否需要tomcat容器单独设置上传时间限制，这里是不用，还是使用标准的，不去给上传的附件单独做超时设置。</p>
+<p>Tomcat内存设置<br>1.JVM 调优<br>在TOMCAT_HOME/bin/catalina.sh 增加如下语句，具体数值视情况而定。<br>添加到上面CATALINA_OPTS的后面即可：</p>
+<p>JAVA_OPTS=”-Xms512m -Xmx1024m -XX:PermSize=512M -XX:MaxNewSize=1024m -XX:MaxPermSize=1024m”</p>
+<p>参数详解：<br>-Xms  JVM初始化堆内存大小<br>-Xmx  JVM堆的最大内存<br>-Xss   线程栈大小<br>-XX:PermSize JVM非堆区初始内存分配大小<br>-XX:MaxPermSize JVM非堆区最大内存</p>
+<p>2、建议和注意事项:<br>-Xms和-Xmx选项设置为相同堆内存分配，以避免在每次GC 后调整堆的大小，堆内存建议占内存的60%~80%;非堆内存是不可回收内存，大小视项目而定;线程栈大小推荐256k.</p>
+<pre><code>3、32G内存配置如下：
+JAVA_OPTS=&quot;-Xms20480m -Xmx20480m -Xss1024K -XX:PermSize=512m -XX:MaxPermSize=2048m&quot;</code></pre>
+<p>nginx优化配置<br>user www www;<br>#用户&amp;组<br> worker_processes auto;<br>#通常是CPU核的数量存储数据的硬盘数量及负载模式,不确定时将其设置为可用的CPU内核数（设置为“auto”将尝试自动检测它）<br> worker_rlimit_nofile 65535;<br> #更改worker进程的最大打开文件数限制<br> events {<br> use epoll;<br> multi_accept on;<br> #在Nginx接到一个新连接通知后,调用accept()来接受尽量多的连接<br> worker_connections 65535;<br>  最大访问客户数,修改此值时,不能超过 worker_rlimit_nofile 值<br> }<br> http {<br> include mime.types;<br> default_type application/octet-stream;<br>#使用的默认的 MIME-type<br> log_format ‘$remote_addr - $remote_user [$time_local] “$request” ‘<br> ‘$status $body_bytes_sent “$http_referer” ‘<br> ‘“$http_user_agent” “$http_x_forwarded_for”‘;<br>#定义日志格式<br> charset UTF-8;<br>设置头文件默认字符集<br> server_tokens off;<br> #Nginx打开网页报错时,关闭版本号显示<br> access_log off;<br> sendfile on;<br> tcp_nopush on;<br> #告诉nginx在一个数据包里发送所有头文件,而不一个接一个的发送<br> tcp_nodelay on;<br> #是否启用 nagle 缓存算法,告诉nginx不要缓存数据<br> keepalive_timeout 65;<br> #HTTP连接持续时间,值越大无用的线程变的越多,0:关闭此功能,默认为75<br> client_header_timeout 10;<br> client_body_timeout 10;<br> #以上两项是设置请求头和请求体各自的超时时间<br> reset_timedout_connection on;<br> #告诉nginx关闭不响应的客户端连接<br> send_timeout 30;<br> #客户端响应超时时间,若客户端停止读取数据,释放过期的客户端连接,默认60s<br> limit_conn_zone $binary_remote_addr zone=addr:5m;<br> #用于保存各种key,如:当前连接数的共享内存的参数,5m是5兆字节,这个值应该被设置的足够大,以存储（32K<em>5）32byte状态或者（16K</em>5）64byte状态<br> limit_conn addr 100;<br> #key最大连接数,这里key是addr,我设置的值是100,这样就允许每个IP地址最多同时打开100个连接数<br> server_names_hash_bucket_size 128;<br> #nginx启动出现could not build the server_names_hash, you should increase错误时,请提高这个参数的值一般设成64就够了<br> client_body_buffer_size 10K;<br> client_header_buffer_size 32k;<br> #客户端请求头部的缓冲区大小,这个可以根据你的系统分页大小进行设置<br> large_client_header_buffers 4 32k;<br> client_max_body_size 8m;<br> #上传文件大小设置,一般是动态应用类型</p>
+<p>mysql 配置优化<br>1、my.cnf 参数修改</p>
+<p>sync_binlog = 0<br>skip-external-locking<br>performance_schema_max_table_instances=400<br>table_open_cache = 2048<br>key_buffer_size = 512M    # 索引块的缓冲区大小。<br>sort_buffer_size = 8M     #用于表间关联缓存的大小<br>net_buffer_length = 4M    #对导入导出数据进行分段<br>read_buffer_size = 4M    #（数据文件存储顺序）是MySQL读入缓冲区的大小<br>read_rnd_buffer_size = 8M #是MySQL的随机读缓冲区大小。</p>
+<p>thread_cache_size = 300        #线程池缓存大小<br>query_cache_size = 64M<br>tmp_table_size = 246M #它规定了内部内存临时表的最大值<br>query_cache_type = 0</p>
+<p>explicit_defaults_for_timestamp = true<br>#skip-networking<br>#skip-name-resolve<br>max_connections = 2000<br>max_connect_errors = 100000<br>open_files_limit = 65535</p>
+<p>sql-mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES<br>#sql_mode,定义了mysql应该支持的sql语法，数据校验等!  NO_AUTO_CREATE_USER：禁止GRANT创建密码为空的用户。<br>log-bin=mysql-bin<br>binlog_format=row<br>server-id = 1<br>expire_logs_days = 10 #控制binlog日志文件保留时间<br>slow_query_log=1<br>slow-query-log-file=/usr/local/mysql/data/mysql-slow.log<br>long_query_time=0.5<br>#log_queries_not_using_indexes=on<br>early-plugin-load = “”<br>default_storage_engine = InnoDB<br>innodb_data_home_dir = /usr/local/mysql/data<br>innodb_data_file_path = ibdata1:10M:autoextend    #单独指定数据文件的路径与大小<br>innodb_log_group_home_dir = /usr/local/mysql/<br>innodb_buffer_pool_size = 6G    #内存75%<br>innodb_log_file_size = 64M<br>innodb_log_buffer_size = 16MB    #InnoDB 将日志写入日志磁盘文件前的缓冲大小<br>innodb_flush_log_at_trx_commit = 0<br>innodb_lock_wait_timeout = 120    #事务锁超时时间<br>innodb_max_dirty_pages_pct = 90<br>innodb_read_io_threads = 4<br>innodb_write_io_threads = 4<br>[mysql]<br>        no-auto-rehash    #auto-rehash是自动补全的意思</p>
+<p>ES配置优化<br>1、elasticsearch.yml配置优化：<br>#节点功能<br>node.master:true<br>node.data:true<br>index.store.type:niofs<br>#其他内存优化项<br>bootstrap.memory_lock:true<br>indices.requests.cache.size:5%<br>indices.queries.cache.size:10%<br>#其他网络优化项<br>transport.tcp.compress:true<br>#提供跨域访问<br>http.cors.enabled:true<br>http.cors.allow-origin:”*”<br>#预加载数据到文件系统缓存<br>index.store.preload:[“nvd”,”dvd”]<br>2、修改参数<br>修改 /etc/security/limits.conf下 * hard memlock unlimited * soft memlock unlimited<br>修改/etc/systemd/system.conf<br>分别修改以下内容：<br>DefaultLimitNOFILE=65536<br>DefaultLimitNPROC=32000<br>DefaultLimitMEMLOCK=infinity<br>/bin/systemctl daemon-reload</p>
+<p>动态优化：<br>设置分配的副本数为1：<br>{“number_of_replicas”: 1}</p>
+<p>获取慢于 20 毫秒输出一个 DEBUG 日志。<br>查询慢于 10 秒输出一个 WARN 日志。<br>索引慢于 20毫秒输出一个 INFO 日志。<br>PUT /my_index/_settings<br>{<br>    “index.search.slowlog.threshold.query.warn” : “10s”,<br>    “index.search.slowlog.threshold.fetch.debug”: “500ms”,<br>    “index.indexing.slowlog.threshold.index.info”: “5s”<br>}</p>
+<p>PUT /_cluster/settings<br>{<br>    “transient” : {<br>        “logger.index.search.slowlog” : “DEBUG”,<br>        “logger.index.indexing.slowlog” : “WARN”<br>    }<br>}<br>设置搜索慢日志为 DEBUG 级别。<br>设置索引慢日志为 WARN 级别。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">John Doe</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://example.com/2021/01/01/%E7%B3%BB%E7%BB%9F%E3%80%81%E4%B8%AD%E9%97%B4%E4%BB%B6%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/">http://example.com/2021/01/01/%E7%B3%BB%E7%BB%9F%E3%80%81%E4%B8%AD%E9%97%B4%E4%BB%B6%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/01/01/chenluyuy/"><img class="next-cover" src="/" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">test</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="/null" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">John Doe</div><div class="author-info__description"></div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">2</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#firewall-cmd-%E2%80%93state"><span class="toc-number">1.</span> <span class="toc-text">firewall-cmd –state</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/01/01/%E7%B3%BB%E7%BB%9F%E3%80%81%E4%B8%AD%E9%97%B4%E4%BB%B6%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/" title="Linux系统优化"><img src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/img/default.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Linux系统优化"/></a><div class="content"><a class="title" href="/2021/01/01/%E7%B3%BB%E7%BB%9F%E3%80%81%E4%B8%AD%E9%97%B4%E4%BB%B6%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E4%BC%98%E5%8C%96/" title="Linux系统优化">Linux系统优化</a><time datetime="2021-01-01T07:13:00.703Z" title="Created 2021-01-01 15:13:00">2021-01-01</time></div></div><div class="aside-list-item"><div class="content"><a class="title" href="/2021/01/01/chenluyuy/" title="test">test</a><time datetime="2021-01-01T06:40:22.764Z" title="Created 2021-01-01 14:40:22">2021-01-01</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By John Doe</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></div></body></html>
